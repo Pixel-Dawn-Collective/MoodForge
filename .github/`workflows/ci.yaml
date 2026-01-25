@@ -1,0 +1,89 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  lint-and-format:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run commitlint
+        if: github.event_name != 'pull_request'
+        run: npx commitlint --from=HEAD~1
+
+      - name: Cache ESLint
+        uses: actions/cache@v3
+        with:
+          path: .eslintcache
+          key: ${{ runner.os }}-eslint-${{ hashFiles('package-lock.json', 'eslint.config.js') }}
+          restore-keys: |
+            ${{ runner.os }}-eslint-
+
+      - name: Lint code
+        run: npx expo lint -- --cache
+
+      - name: Prettier format check
+        run: npm run format:check
+
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Cache TypeScript
+        uses: actions/cache@v3
+        with:
+          path: .tsbuildinfo
+          key: ${{ runner.os }}-tsc-${{ hashFiles('tsconfig.json') }}
+          restore-keys: |
+            ${{ runner.os }}-tsc-
+
+      - name: Type check
+        run: npx tsc --noEmit --incremental --tsBuildInfoFile .tsbuildinfo
+
+      - name: Run Jest tests
+        run: npm test -- --coverage
+
+      - name: Expo build check (dev client)
+        run: npx expo prebuild --no-install --check
