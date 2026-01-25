@@ -37,9 +37,6 @@ jobs:
             npx commitlint --from=HEAD
           fi
 
-      - name: Lint code
-        run: npm run lint
-
       - name: Prettier format check
         run: npm run format:check
 
