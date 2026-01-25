@@ -46,7 +46,11 @@ jobs:
             ${{ runner.os }}-eslint-
 
       - name: Lint code
-        run: npx expo lint src --ext .ts,.tsx,.js,.jsx
+        run: npx expo lint src --ext .ts
+              npx expo lint src --ext .tsx
+              npx expo lint src --ext .js
+              npx expo lint src --ext .jsx
+
 
       - name: Prettier format check
         run: npm run format:check
