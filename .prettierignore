@@ -1,0 +1,19 @@
+# Lock and config files
+package-lock.json
+package.json
+.eslintrc.js
+eslint.config.js
+commitlint.config.js
+
+# Project templates and CI configs
+.github/**
+*.yml
+*.yaml
+
+# Documentation
+README.md
+LICENSE
+
+# Other files you want to skip
+node_modules/
+dist/
