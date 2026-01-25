@@ -38,8 +38,7 @@ jobs:
           fi
 
       - name: Lint code
-        run: npx expo lint src --ext .ts
-              npx expo lint src --ext .tsx
+        run: npx run pipeline:lint
 
       - name: Prettier format check
         run: npm run format:check
