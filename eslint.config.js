@@ -40,5 +40,18 @@ module.exports = defineConfig([
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/explicit-module-boundary-types": "warn",
     },
+    ignores: [
+            "node_modules",
+            "dist",
+            "build",
+            "*.config.js",
+            "*.config.json",
+            "package.json",
+            "package-lock.json",
+            "yarn.lock",
+            "README.md",
+            "*.template.*",
+            ".husky",
+        ],
   },
 ]);
