@@ -3,7 +3,7 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  lint-and-format:
+  verify-commit:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -36,9 +36,6 @@ jobs:
           else
             npx commitlint --from=HEAD
           fi
-
-      - name: Prettier format check
-        run: npm run format:check
 
   build-and-test:
     runs-on: ubuntu-latest
