@@ -46,8 +46,7 @@ jobs:
             ${{ runner.os }}-eslint-
 
       - name: Lint code
-        run: npx eslint "src/**/*.ts" "src/**/*.tsx" "src/**/*.js" "src/**/*.jsx" --cache
-
+        run: npx expo lint src --ext .ts,.tsx
 
       - name: Prettier format check
         run: npm run format:check
