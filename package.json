@@ -9,7 +9,7 @@
     "web": "expo start --web",
     "test": "echo 'No tests specified' && exit 0",
     "lint": "expo lint",
-    "lint:pipeline": "eslint \"src/**/*.ts\" \"src/**/*.tsx\"",
+    "lint:pipeline": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky"

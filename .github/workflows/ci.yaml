@@ -38,7 +38,7 @@ jobs:
           fi
 
       - name: Lint code
-        run: npm run pipeline:lint
+        run: npm run lint
 
       - name: Prettier format check
         run: npm run format:check
