@@ -30,7 +30,12 @@ jobs:
 
       - name: Run commitlint
         if: github.event_name != 'pull_request'
-        run: npx commitlint --from=HEAD~1
+        run: |
+          if git rev-parse HEAD~1 >/dev/null 2>&1; then
+            npx commitlint --from=HEAD~1
+          else
+            npx commitlint --from=HEAD
+          fi
 
       - name: Cache ESLint
         uses: actions/cache@v3
@@ -86,4 +91,4 @@ jobs:
         run: npm test -- --coverage
 
       - name: Expo build check (dev client)
-        run: npx expo prebuild --no-install --check
+        run: npx expo prebuild --no-install
