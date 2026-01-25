@@ -37,14 +37,6 @@ jobs:
             npx commitlint --from=HEAD
           fi
 
-      - name: Cache ESLint
-        uses: actions/cache@v3
-        with:
-          path: .eslintcache
-          key: ${{ runner.os }}-eslint-${{ hashFiles('package-lock.json', 'eslint.config.js') }}
-          restore-keys: |
-            ${{ runner.os }}-eslint-
-
       - name: Lint code
         run: npx expo lint src --ext .ts,.tsx
 
